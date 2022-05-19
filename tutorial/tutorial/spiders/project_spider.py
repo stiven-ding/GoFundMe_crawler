@@ -75,10 +75,20 @@ class ProjectSpider(scrapy.Spider):
         project['location'] = response.meta['location']
         project['percentage_funded'] = response.css(
             "progress.a-progress-bar::attr(value)").get()
-        project['amount_raised'] = response.css(
-            "h2.m-progress-meter-heading::text").get().replace(',', '')
-        project['amount_goal'] = response.css("span.text-stat::text").get().replace(
-            ' raised of ', '').replace(' goal', '').replace(',', '')
+
+        # new project without any doantions
+        if response.css("h2.m-progress-meter-heading::text").get() is None:
+            project['amount_goal'] = response.css("h2.m-progress-meter-heading--exp").css("div::text").get().replace(
+                ' raised of ', '').replace(' goal', '').replace(',', '')
+            project['amount_raised'] = "0"
+        
+        # old project with donations
+        else:
+            project['amount_goal'] = response.css("span.text-stat::text").get().replace(
+                ' raised of ', '').replace(' goal', '').replace(',', '')
+            project['amount_raised'] = response.css(
+                "h2.m-progress-meter-heading::text").get().replace(',', '')
+
         project['description'] = response.css(
             "div.o-campaign-description").get()
         project['date_url_discovered'] = response.meta['date_url_discovered']
