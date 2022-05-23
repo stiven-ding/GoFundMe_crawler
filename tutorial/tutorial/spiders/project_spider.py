@@ -13,10 +13,10 @@ class ProjectSpider(scrapy.Spider):
     name = "project_spider"
 
     custom_settings = {
-        'AUTOTHROTTLE_ENABLED': True,
+        'AUTOTHROTTLE_ENABLED': False,
         'AUTOTHROTTLE_START_DELAY': 0.2,
         'AUTOTHROTTLE_MAX_DELAY': 5,
-        'AUTOTHROTTLE_TARGET_CONCURRENCY': 0.6,
+        'AUTOTHROTTLE_TARGET_CONCURRENCY': 0.7,
         'LOG_LEVEL': 'INFO'
     }
 
